@@ -1,30 +1,25 @@
 # Unify key bindings: SLIME and Elisp
 
-We try to make consistent **emacs** key bindings between
-[Elisp](https://www.gnu.org/software/emacs/manual/html_node/eintr/Preface.html
-"Emacs Lisp (Elisp)") and [SLIME](https://slime.common-lisp.dev/ "Emacs mode for
-Common Lisp.")
+Our goal is to use consistent emacs shortcuts (key bindings) across
+[SLIME](https://slime.common-lisp.dev/ "Emacs mode for Common Lisp.") and
+[Emacs Lisp](https://www.gnu.org/software/emacs/manual/html_node/eintr/Preface.html
+"Emacs Lisp (Elisp)") (Elisp).
 
-For example, Elisp and SLIME offer a way to describe the function at
-[point](https://www.gnu.org/software/emacs/manual/html_node/emacs/Point.html
-"Emacs point.").
-
-**Elisp**: `describe-function`  (`C-h f`)
+For example, both SLIME and Elisp provide a function to display the documentation of
+the function at
+[point](https://www.gnu.org/software/emacs/manual/html_node/emacs/Point.html)
+(**point** is the current location of the keyboard cursor).
 
 **SLIME**: `slime-describe-function` (`C-c C-d f`)
 
-For consistency we can use `C-h f` for both Elisp and SLIME.
+**Elisp**: `describe-function`  (`C-h f`)
 
-Let's try to reconfigure SLIME for this function and more. The below snippet is
-just a start, it is not exhaustive.
+Note that their default key bindings differ. If you find this inconvenient when
+switching between SLIME and Elisp, you can set the same key binding for both.
 
-# Reconfigure SLIME
-
-Reconfigure **SLIME** key bindings to match **Elisp** defaults. We could also do
-it the other way and reconfigure Elisp bindings to match SLIME.
+Below, we use `C-h f` for both **SLIME** and **Elisp**
 
 ```elisp
-(require 'cl-lib)
 (cl-macrolet ((def (key fn) `(progn
                                (define-key slime-mode-map (kbd ,key) ,fn)
                                (define-key slime-repl-mode-map (kbd ,key) ,fn)))
@@ -32,15 +27,10 @@ it the other way and reconfigure Elisp bindings to match SLIME.
                               (define-key slime-mode-map (kbd ,key) nil)
                               (define-key slime-repl-mode-map (kbd ,key) nil))))
 
-;;; slime-describe-symbol: use `C-h o` instead of `C-c C-d d`
-             (clear "C-c C-d C-d")
-             (clear "C-c C-d d")
-             (def "C-h o" 'slime-describe-symbol)
-
 ;;; slime-describe-function: use `C-h f` instead of `C-c C-d f`
              (clear "C-c C-d C-f")
              (clear "C-c C-d f")
              (def "C-h f" 'slime-describe-function)
 ```
 
-For more bindings see <unify-bindings.el>.
+See [unify-bindings.el](unify-bindings.el) for more.
