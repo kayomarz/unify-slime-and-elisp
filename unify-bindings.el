@@ -15,6 +15,14 @@
              (clear "C-c C-d h")
              (def "C-h F" 'slime-documentation-lookup)
 
-  ;;; completion-at-point: use `C-M-i` instead of `C-c TAB`
+             (clear "C-c C-d a")
+             (def "C-h a" 'slime-apropos)
+
+             (clear "C-c C-d p")
+             (def "C-h p" 'slime-apropos-package)
+
+             (clear "C-c #")
+             (def "C-h #" 'common-lisp-hyperspec-lookup-reader-macro)
+
              (clear "C-c TAB")
              (def "C-M-i" 'completion-at-point))
